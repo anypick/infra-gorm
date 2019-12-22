@@ -23,12 +23,11 @@ type GormStarter struct {
 	infra.BaseStarter
 }
 
-func (m *GormStarter) Init(ctx infra.StarterContext) {
+func (m *GormStarter) Setup(ctx infra.StarterContext) {
 	var (
-		conf = ctx.Yaml().OtherConfig[config.DefaultPrefix].(*config.GormConfig)
+		conf = ctx.Yaml()[config.DefaultPrefix].(*config.GormConfig)
 		err  error
 	)
-
 	if db, err = gorm.Open(conf.DriverName, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s%s",
 		conf.Username, conf.Password, conf.IpAddr, conf.Port, conf.Database, conf.Params)); err != nil {
 		panic(err)

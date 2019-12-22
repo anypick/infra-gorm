@@ -1,11 +1,11 @@
-package testx
+package basegorm
 
 import (
 	"github.com/anypick/infra"
-	"github.com/anypick/infra-gorm"
 	"github.com/anypick/infra/base/props"
 	"github.com/anypick/infra/base/props/container"
-	"github.com/jinzhu/gorm"
+	"path/filepath"
+	"runtime"
 	"time"
 )
 
@@ -28,19 +28,21 @@ type SysMenus struct {
 	Parent   int64  `gorm:"parent"`
 }
 
-func init() {
+func InitT() {
 	infra.Register(&container.YamlStarter{})
-	infra.Register(&basegorm.GormStarter{})
-
+	Init()
 	infra.Register(&infra.BaseInitializerStarter{})
 
-	source := props.NewYamlSource("./config.yml")
+	source := props.NewYamlSource(GetCurrentFilePath("./testx/config.yml", 0))
 	app := infra.New(*source)
 	app.Start()
 }
 
-// 测试查询
-func GormC(db *gorm.DB) (menus []SysMenus, err error) {
-	db.Find(&menus)
-	return
+
+// 获取文件的绝对路径
+func GetCurrentFilePath(fileName string, skip int) string {
+	_, file, _, _ := runtime.Caller(skip)
+	// 解析出文件路径
+	dir := filepath.Dir(file)
+	return filepath.Join(dir, fileName)
 }

@@ -4,10 +4,8 @@ package config
 gorm需要的配置
  */
 
-
 import (
 	"fmt"
-	"github.com/anypick/infra/base/props/container"
 	"github.com/anypick/infra/utils/common"
 	"reflect"
 	"time"
@@ -16,11 +14,6 @@ import (
 const (
 	DefaultPrefix = "gorm"
 )
-
-func init() {
-	// 将配置添加到Yaml容器中，Prefix字段必须
-	container.RegisterYamContainer(&GormConfig{Prefix: DefaultPrefix})
-}
 
 type GormConfig struct {
 	Prefix          string                                 // yaml配置文件中每一项配置的前缀，用于获取配置
@@ -38,18 +31,17 @@ type GormConfig struct {
 
 // 实现配置装配接口，主要的作用是装配配置，容器初始化的时候会被调用
 func (c *GormConfig) ConfigAdd(config map[interface{}]interface{}) {
-	c.DriverName = config["driverName"].(string)
-	c.IpAddr = config["ipAddr"].(string)
-	c.Port = fmt.Sprintf("%v", config["port"])
-	c.Username = config["username"].(string)
-	c.Password = config["password"].(string)
-	c.Database = config["database"].(string)
-	c.MaxOpenConn = config["maxOpenConn"].(int)
-	c.MaxIdeConn = config["maxIdeConn"].(int)
-	c.ConnMaxLifetime = time.Duration(config["connMaxLifetime"].(int))
-	c.Params = config["params"].(string)
+	c.DriverName      = config["driverName"].(string)
+	c.IpAddr          = config["ipAddr"].(string)
+	c.Port 			  = fmt.Sprintf("%v", config["port"])
+	c.Username        = config["username"].(string)
+	c.Password        = config["password"].(string)
+	c.Database        = config["database"].(string)
+	c.MaxOpenConn     = config["maxOpenConn"].(int)
+	c.MaxIdeConn      = config["maxIdeConn"].(int)
+	c.ConnMaxLifetime = time.Duration(config["connMaxLifetime"].(int)) * time.Second
+	c.Params          = config["params"].(string)
 }
-
 
 func (m GormConfig) GetStringByDefault(fieldName, defaultValue string) string {
 	stringValue := reflect.ValueOf(m).FieldByName(fieldName).Interface().(string)

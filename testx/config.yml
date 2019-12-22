@@ -1,9 +1,9 @@
 gorm:
   driverName: mysql
-  ipAddr: 192.168.56.130
+  ipAddr: 47.101.155.215
   port: 3306
   username: root
-  password: amdin
+  password: admin
   database: rush_mall
   maxOpenConn: 100
   maxIdeConn: 100
