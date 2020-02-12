@@ -2,9 +2,9 @@ gorm:
   driverName: mysql
   ipAddr: 47.101.155.215
   port: 3306
-  username: root
-  password: admin
-  database: rush_mall
+  username: ziidu
+  password: FxpxCDw12Z
+  database: ziidu
   maxOpenConn: 100
   maxIdeConn: 100
   # 7 * 24 * 60 * 60
